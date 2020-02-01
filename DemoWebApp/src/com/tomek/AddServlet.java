@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +45,7 @@ public class AddServlet extends HttpServlet
 		rd.forward(req, res);
 	}
 	
-	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException
+	public void doGetWithSession(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException
 	{
 		//TODO - find out how getParameter method works
 		//in this example it identifies parameters based on name attribute
@@ -56,6 +57,20 @@ public class AddServlet extends HttpServlet
 		
 		HttpSession session = req.getSession();
 		session.setAttribute("sum", sum);
+		
+		
+		res.sendRedirect("sq");
+	}
+	
+	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException
+	{
+		int i = Integer.parseInt(req.getParameter("num1"));
+		int j = Integer.parseInt(req.getParameter("num2"));
+		
+		int sum = i + j; 
+		
+		Cookie cookie = new Cookie("sum", String.valueOf(sum));
+		res.addCookie(cookie);
 		
 		
 		res.sendRedirect("sq");
