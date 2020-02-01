@@ -2,6 +2,8 @@ package com.tomek;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +23,7 @@ public class AddServlet extends HttpServlet
 		System.out.println("The result is: " + result);
 	}
 	
-	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException
+	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException
 	{
 		//TODO - find out how getParameter method works
 		//in this example it identifies parameters based on name attribute
@@ -29,6 +31,12 @@ public class AddServlet extends HttpServlet
 		int i = Integer.parseInt(req.getParameter("num1"));
 		int j = Integer.parseInt(req.getParameter("num2"));
 		
-		res.getWriter().println("Numbers are: " + i + " and " + j);
+		int sum = i + j; 
+		
+//		res.getWriter().println("Numbers are: " + i + " and " + j);
+		req.setAttribute("sum", sum);
+		
+		RequestDispatcher rd = req.getRequestDispatcher("sq");
+		rd.forward(req, res);
 	}
 }
